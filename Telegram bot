@@ -1,0 +1,8 @@
+import os from telegram import Update from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+
+BOT_TOKEN = "7515172861:AAFY-4p38CfBWvDA4RD5HinSINgU077IMo0" CHANNEL_ID = -1002849042143 PRIVATE_CHANNEL_USERNAME = "Lol"  # <-- Change this to your channel username MOVIE_LINK = "https://t.me/c/2849042143/2"  # <-- Change this to your real movie post link
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE): user_id = update.effective_user.id member = await context.bot.get_chat_member(chat_id=CHANNEL_ID, user_id=user_id) if member.status in ['member', 'administrator', 'creator']: await update.message.reply_text(f"✅ আপনার মুভি লিংক:\n👉 {MOVIE_LINK}") else: await update.message.reply_text(f"❌ দয়া করে প্রথমে চ্যানেলটিতে যোগ দিন:\n👉 https://t.me/{PRIVATE_CHANNEL_USERNAME}")
+
+if name == "main": app = ApplicationBuilder().token(BOT_TOKEN).build() app.add_handler(CommandHandler("start", start)) app.run_polling()
+
