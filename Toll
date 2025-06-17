@@ -1,0 +1,42 @@
+import logging from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, CallbackQueryHandler
+
+--- Replace with your own credentials ---
+
+BOT_TOKEN = "7515172861:AAFY-4p38CfBWvDA4RD5HinSINgU077IMo0" PRIVATE_CHANNEL_USERNAME = "Lol"  # without @ MOVIE_LINK = "https://t.me/MovieRoomBD/123"
+
+----------------------------------------
+
+logging.basicConfig( format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO )
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE): user = update.effective_user
+
+# Create the join button
+join_button = InlineKeyboardButton(
+    text="✅ Join Channel", url=f"https://t.me/{Lol}"
+)
+keyboard = InlineKeyboardMarkup([[join_button]])
+
+# Check if user is a member of the private channel
+try:
+    member = await context.bot.get_chat_member(f"@{Lol}", user.id)
+    if member.status in ["member", "administrator", "creator"]:
+        await update.message.reply_text(f"✅ You are already a member! Here's your movie link:\n👉 {MOVIE_LINK}")
+    else:
+        await update.message.reply_text(
+            "❗ To get access to the movie, please join our channel first:",
+            reply_markup=keyboard
+        )
+except Exception as e:
+    logging.error(f"Error: {e}")
+    await update.message.reply_text(
+        "❗ Please join our channel to unlock the movie:",
+        reply_markup=keyboard
+    )
+
+if name == 'main': app = ApplicationBuilder().token(BOT_TOKEN).build()
+
+app.add_handler(CommandHandler("start", start))
+
+print("Bot started...")
+app.run_polling()
+
